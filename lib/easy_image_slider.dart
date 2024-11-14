@@ -5,22 +5,32 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+enum ImageFormat { asset, network }
+
 /// EASY IMAGE SLIDER
 class EasyImageSlider extends StatefulWidget {
+  /// Set image height
   final double? height;
+
+  /// Set image width
   final double? width;
+
+  /// List of images
   final List<String> images;
+
+  /// Set image change duration
   final Duration? imageChangeDuration;
 
-  /// Enter 'asset' for AssetImage 'network' for using NetworkImage,by default it is 'asset'
-  final String isAssetOrNetworkImages;
+  /// Use [imageFormat] as [ImageFormat.asset]for AssetImage
+  ///Use [imageFormat] as [ImageFormat.network] for using NetworkImage,by default it is [ImageFormat.asset]
+  final ImageFormat imageFormat;
   // ignore: use_key_in_widget_constructors
   const EasyImageSlider(
       {required this.images,
       this.imageChangeDuration,
       this.height,
       this.width,
-      this.isAssetOrNetworkImages = 'asset'});
+      this.imageFormat = ImageFormat.asset});
 
   @override
   State<StatefulWidget> createState() {
@@ -60,7 +70,7 @@ class EasyImageSliderState extends State<EasyImageSlider> {
         height: widget.height ?? MediaQuery.of(context).size.height * 0.2,
         width: widget.width ?? MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          image: widget.isAssetOrNetworkImages == 'network'
+          image: widget.imageFormat == ImageFormat.asset
               ? DecorationImage(
                   image: NetworkImage(widget.images[
                       imageIndex > widget.images.length - 1 ? 0 : imageIndex]),
